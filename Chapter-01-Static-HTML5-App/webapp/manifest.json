@@ -1,0 +1,13 @@
+{
+    "_version": "1.1.0",
+    "sap.app": {
+        "id": "com.sk.ch01.staticapp",
+        "type": "application",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "Static HTML5 App (Ch01)",
+        "description": "Minimal static app deployed to BTP."
+    }
+
+}

@@ -1,0 +1,39 @@
+# A version declaration is mandatory for the MTA file format
+_schema-version: "3.2" 
+ID: Chapter-01-Static-App  # The unique ID of the entire application
+version: 1.0.0
+
+# --- RESOURCES (The Services we consume) ---
+resources:
+  # This defines an instance of the HTML5 Application Repository Service
+  - name: static-app-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      # The service offering on BTP for the HTML5 App Repository
+      service: html5-apps-repo 
+      # The standard plan for hosting application content
+      service-plan: app-host 
+      
+# --- MODULES (The deployable components) ---
+modules:
+  - name: static-app-module
+    type: html5
+    path: webapp  # The directory containing the static HTML files (our source)
+    parameters:
+      # Makes this module deploy to the HTML5 App Repository service
+      disk-quota: 256M
+      memory: 256M
+      build-result: resources
+    build-parameters:
+      builder: custom
+      commands: []
+      
+    requires:
+      # Links this module to the service instance defined above
+      - name: static-app-repo-host
+        group: destinations
+        properties:
+          # Defines the logical name for the destination for the service broker
+          name: static-app-dest
+          # Defines the service instance to be targeted
+          forwardAuthToken: true
